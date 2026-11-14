@@ -1,27 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getCrossings } from "../../services/crossingsService";
+import {useCrossings} from "../../hooks/useCrossings";
 
 export default function TesteApiPage() {
-    const [crossings, setCrossings] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const { crossings, loading, error, } = useCrossings();
 
-    useEffect(() => {
-        async function loadCrossings() {
-            try {
-                const data = await getCrossings();
-                setCrossings(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        loadCrossings();
-    }, []);
 
     if(loading) {
         return <main className="p-8">Carregando cruzamentos...</main>;
@@ -44,6 +27,7 @@ export default function TesteApiPage() {
                             <h2 className="text-lg font-semibold">{crossing.nome}</h2>
                             <p>Bairro: {crossing.bairro}</p>
                             <p>Status: {crossing.status}</p>
+                            <p>Largura da via: {crossing.largura_via_m} m</p>
                         </li>
                     ))}
                 </ul>
