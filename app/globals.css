@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+@source "./";
+@source "../components";
+
+@theme {
+  --color-hawk-background: #17191c;
+  --color-hawk-sidebar: #111315;
+  --color-hawk-surface: #1e2223;
+  --color-hawk-card: #24292a;
+
+  --color-hawk-green: #65c141;
+  --color-hawk-orange: #f28c28;
+  --color-hawk-green-dark: #263b2a;
+  --color-hawk-notice: #2a332b;
+
+  --color-hawk-text: #f2f3ed;
+  --color-hawk-muted: #b9c0ba;
+  --color-hawk-border: #343a40;
+
+  --font-hawk: Arial, Helvetica, sans-serif;
+}
