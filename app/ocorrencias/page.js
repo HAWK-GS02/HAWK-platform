@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useOccurrences } from "../../hooks/useOccurrences";
+import { useCrossings } from "../../hooks/useCrossings";
+import { OccurrenceForm } from "../../components/occurrences/OccurrenceForm";
 import { OccurrencesFilters } from "../../components/occurrences/OccurrencesFilters";
 import { OccurrencesList } from "../../components/occurrences/OccurrencesList";
 
@@ -12,7 +15,40 @@ export default function OccurrencesPage() {
     error,
     changeFilter,
     loadOccurrences,
+    addOccurrence,
+    editOccurrence,
   } = useOccurrences();
+
+  const {
+    crossings,
+    loading: crossingsLoading,
+    error: crossingsError,
+  } = useCrossings();
+
+  const [editingOccurrence, setEditingOccurrence] = useState(null);
+  const [message, setMessage] = useState("");
+
+  async function handleSubmit(data) {
+    setMessage("");
+
+    if (editingOccurrence) {
+      await editOccurrence(editingOccurrence.id, data);
+      setEditingOccurrence(null);
+      setMessage("Ocorrência atualizada com sucesso.");
+      return;
+    }
+
+    await addOccurrence(data);
+  }
+
+  function handleEdit(occurrence) {
+    setMessage("");
+    setEditingOccurrence(occurrence);
+  }
+
+  function handleCancelEdit() {
+    setEditingOccurrence(null);
+  }
 
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
@@ -26,21 +62,42 @@ export default function OccurrencesPage() {
         </h1>
 
         <p className="mt-2 text-gray-600">
-          Acompanhe as ocorrências dos cruzamentos monitorados.
+          Gerencie as ocorrências dos cruzamentos monitorados.
         </p>
       </header>
 
-      <OccurrencesFilters
-        filters={filters}
-        onFilterChange={changeFilter}
-      />
+      {message && (
+        <p role="status" className="text-sm text-green-700">
+          {message}
+        </p>
+      )}
 
-      <OccurrencesList
-        occurrences={occurrences}
-        loading={loading}
-        error={error}
-        onRetry={loadOccurrences}
-      />
+      <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+        <OccurrenceForm
+          key={editingOccurrence?.id ?? "new"}
+          initialData={editingOccurrence}
+          onSubmit={handleSubmit}
+          onCancel={handleCancelEdit}
+          crossings={crossings}
+          crossingsLoading={crossingsLoading}
+          crossingsError={crossingsError}
+        />
+
+        <div className="space-y-6">
+          <OccurrencesFilters
+            filters={filters}
+            onFilterChange={changeFilter}
+          />
+
+          <OccurrencesList
+            occurrences={occurrences}
+            loading={loading}
+            error={error}
+            onRetry={loadOccurrences}
+            onEdit={handleEdit}
+          />
+        </div>
+      </div>
     </main>
   );
 }

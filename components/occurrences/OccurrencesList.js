@@ -21,6 +21,7 @@ export function OccurrencesList({
   loading,
   error,
   onRetry,
+  onEdit,
 }) {
   if (loading) {
     return <p role="status">Carregando ocorrências...</p>;
@@ -47,9 +48,7 @@ export function OccurrencesList({
   if (occurrences.length === 0) {
     return (
       <section className="rounded-lg border border-dashed border-gray-300 p-6">
-        <h2 className="font-semibold">
-          Nenhuma ocorrência encontrada
-        </h2>
+        <h2 className="font-semibold">Nenhuma ocorrência encontrada</h2>
 
         <p className="mt-1 text-sm text-gray-600">
           Não há registros para os filtros selecionados.
@@ -84,8 +83,7 @@ export function OccurrencesList({
                 }`}
               >
                 Prioridade:{" "}
-                {priorityLabels[occurrence.prioridade] ??
-                  occurrence.prioridade}
+                {priorityLabels[occurrence.prioridade] ?? occurrence.prioridade}
               </span>
             </div>
 
@@ -97,8 +95,7 @@ export function OccurrencesList({
               <div>
                 <dt className="text-gray-500">Situação</dt>
                 <dd className="font-medium">
-                  {situationLabels[occurrence.situacao] ??
-                    occurrence.situacao}
+                  {situationLabels[occurrence.situacao] ?? occurrence.situacao}
                 </dd>
               </div>
 
@@ -109,6 +106,13 @@ export function OccurrencesList({
                 </dd>
               </div>
             </dl>
+            <button
+              type="button"
+              onClick={() => onEdit(occurrence)}
+              className="mt-5 text-sm font-medium text-blue-700 underline"
+            >
+              Editar
+            </button>
           </li>
         ))}
       </ul>
