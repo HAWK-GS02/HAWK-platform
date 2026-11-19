@@ -68,12 +68,12 @@ setSuccessMessage(
     }
 
     return(
-        <section className="rounded-lg border border-gray-200 bg-white p-6">
+        <section className="border border-hawk-border bg-hawk-surface p-5">
       <h2 className="text-xl font-semibold">
         {isEditing ? "Editar cruzamento" : "Cadastrar cruzamento"}
       </h2>
 
-      <p className="mt-1 text-sm text-gray-600">
+      <p className="mt-1 text-sm text-hawk-muted">
         Preencha os dados de localização e configuração da travessia.
       </p>
 
@@ -86,7 +86,7 @@ setSuccessMessage(
             name="nome"
             value={formData.nome}
             onChange={handleChange}
-            className="rounded-md border border-gray-300 p-2"
+            className="hawk-input"
             required
           />
         </label>
@@ -97,7 +97,7 @@ setSuccessMessage(
             name="bairro"
             value={formData.bairro}
             onChange={handleChange}
-            className="rounded-md border border-gray-300 p-2"
+            className="hawk-input"
             required
           />
         </label>
@@ -113,7 +113,7 @@ setSuccessMessage(
               step="any"
               value={formData.latitude}
               onChange={handleChange}
-              className="rounded-md border border-gray-300 p-2"
+              className="hawk-input"
               required
             />
           </label>
@@ -128,7 +128,7 @@ setSuccessMessage(
               step="any"
               value={formData.longitude}
               onChange={handleChange}
-              className="rounded-md border border-gray-300 p-2"
+              className="hawk-input"
               required
             />
           </label>
@@ -145,7 +145,7 @@ setSuccessMessage(
             step="0.1"
             value={formData.largura_via_m}
             onChange={handleChange}
-            className="rounded-md border border-gray-300 p-2"
+            className="hawk-input"
             required
           />
         </label>
@@ -156,7 +156,7 @@ setSuccessMessage(
             name="status"
             value={formData.status}
             onChange={handleChange}
-            className="rounded-md border border-gray-300 p-2"
+            className="hawk-input"
           >
             <option value="ativo">Ativo</option>
             <option value="manutencao">Manutenção</option>
@@ -165,13 +165,13 @@ setSuccessMessage(
         </label>
 
         {error && (
-          <p role="alert" className="text-sm text-red-700">
+          <p role="alert" className="text-sm text-hawk-orange">
             Erro: {error}
           </p>
         )}
 
         {successMessage && (
-          <p role="status" className="text-sm text-green-700">
+          <p role="status" className="text-sm text-hawk-green">
             {successMessage}
           </p>
         )}
@@ -179,7 +179,7 @@ setSuccessMessage(
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-slate-900 px-4 py-2 font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="hawk-button"
         >
           {submitting
   ? "Salvando..."
@@ -191,7 +191,7 @@ setSuccessMessage(
   <button
     type="button"
     onClick={onCancel}
-    className="rounded-md border border-gray-300 px-4 py-2 font-medium text-slate-700"
+    className="rounded-sm border border-hawk-border px-4 py-2 font-medium text-hawk-text"
   >
     Cancelar edição
   </button>

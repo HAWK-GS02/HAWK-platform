@@ -1,6 +1,10 @@
 "use client";
+import { AppShell } from "../../components/layout/AppShell";
+import { PageHeader } from "../../components/layout/PageHeader";
 
 import { useState } from "react";
+import { Panel } from "../../components/ui/Panel";
+import { EventDetails } from "../../components/events/EventDetails";
 import { EventsPeriodFilter } from "../../components/events/EventsPeriodFilter";
 import { useEvents } from "../../hooks/useEvents";
 import { useCrossings } from "../../hooks/useCrossings";
@@ -30,6 +34,8 @@ export default function HistoryPage() {
   );
 
   const [periodKey, setPeriodKey] = useState(0);
+  const [selectedId, setSelectedId] = useState(null);
+  const selected = events.find(event => event.id === selectedId) ?? events[0] ?? null;
 
 function handleResetFilters() {
   resetFilters();
@@ -37,31 +43,15 @@ function handleResetFilters() {
 }
 
   return (
-    <main className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium text-slate-600">
-            HAWK Control
-          </p>
-
-          <h1 className="mt-1 text-3xl font-bold text-slate-900">
-            Histórico
-          </h1>
-
-          <p className="mt-2 text-gray-600">
-            Consulte os eventos operacionais dos cruzamentos.
-          </p>
-        </div>
-
-        <button
+    <AppShell activeHref="/historico">
+      <PageHeader eyebrow="MEMÓRIA OPERACIONAL / 05" title="Histórico." description="Cada evento conta uma parte da operação." action={<button
           type="button"
           onClick={reloadEvents}
           disabled={loading}
-          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium disabled:opacity-50"
+          className="hawk-button-secondary"
         >
           {loading ? "Atualizando..." : "Atualizar histórico"}
-        </button>
-      </header>
+        </button>} />
 
       <EventsFilters
         filters={filters}
@@ -77,7 +67,10 @@ function handleResetFilters() {
   onApply={applyPeriod}
 />
 
+      <div className="grid items-start gap-5 xl:grid-cols-5"><div className="min-w-0 xl:col-span-3"><Panel eyebrow="02 / LINHA DO TEMPO" title="Eventos recentes">
       <EventsList
+        onSelect={setSelectedId}
+        selectedId={selected?.id}
         events={events}
         loading={loading}
         error={error}
@@ -85,6 +78,7 @@ function handleResetFilters() {
         crossingNames={crossingNames}
         limit={filters.limite}
       />
-    </main>
+      </Panel></div><aside className="min-w-0 space-y-4 xl:col-span-2"><p className="text-xs tracking-widest text-hawk-green">03 / EVENTO SELECIONADO</p>{!loading && !error && selected ? <EventDetails event={selected}/> : <Panel title="Detalhe do evento"><p className="p-5 text-sm text-hawk-muted">Selecione um evento após carregar os registros.</p></Panel>}</aside></div>
+    </AppShell>
   );
 }

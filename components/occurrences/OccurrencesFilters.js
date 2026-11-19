@@ -2,7 +2,7 @@ export function OccurrencesFilters({ filters, onFilterChange }) {
   return (
     <section
       aria-label="Filtros de ocorrências"
-      className="grid gap-4 rounded-lg border border-gray-200 bg-white p-5 sm:grid-cols-2"
+      className="grid gap-4 border-b border-hawk-border bg-hawk-surface p-5 sm:grid-cols-2"
     >
       <label className="grid gap-1">
         <span className="text-sm font-medium">Prioridade</span>
@@ -12,7 +12,7 @@ export function OccurrencesFilters({ filters, onFilterChange }) {
           onChange={(event) =>
             onFilterChange("prioridade", event.target.value)
           }
-          className="rounded-md border border-gray-300 p-2"
+          className="hawk-input"
         >
           <option value="">Todas</option>
           <option value="baixa">Baixa</option>
@@ -29,7 +29,7 @@ export function OccurrencesFilters({ filters, onFilterChange }) {
           onChange={(event) =>
             onFilterChange("situacao", event.target.value)
           }
-          className="rounded-md border border-gray-300 p-2"
+          className="hawk-input"
         >
           <option value="">Todas</option>
           <option value="aberta">Aberta</option>

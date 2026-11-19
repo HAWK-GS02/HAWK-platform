@@ -5,8 +5,12 @@ export function getCrossings(status){
     return apiFetch(`/cruzamentos${query}`);
 }
 
-export function getCrossingById(id){
-    return apiFetch(`/cruzamentos/${id}`);
+export function getCrossingById(id, options = {}){
+    return apiFetch(`/cruzamentos/${encodeURIComponent(id)}`, options);
+}
+
+export function getCrossingState(id, options = {}) {
+    return apiFetch(`/cruzamentos/${encodeURIComponent(id)}/estado-atual`, options);
 }
 
 export function createCrossing(data) {

@@ -1,158 +1,23 @@
-const priorityLabels = {
-  baixa: "Baixa",
-  media: "Média",
-  alta: "Alta",
-};
-
-const priorityStyles = {
-  baixa: "bg-blue-100 text-blue-800",
-  media: "bg-amber-100 text-amber-800",
-  alta: "bg-red-100 text-red-800",
-};
-
-const situationLabels = {
-  aberta: "Aberta",
-  em_andamento: "Em andamento",
-  resolvida: "Resolvida",
-};
-
+import { StatusBadge } from "../ui/StatusBadge";
+import { formatEventDate } from "../../utils/eventPresentation";
 export function OccurrencesList({
   occurrences,
   loading,
   error,
   onRetry,
+  onSelect,
+  selectedId,
   onEdit,
   onDelete,
   onSituationChange,
   actionsDisabled,
+  crossingNames = {}
 }) {
-  if (loading) {
-    return <p role="status">Carregando ocorrências...</p>;
-  }
-
-  if (error) {
-    return (
-      <section className="rounded-lg border border-red-200 p-5">
-        <p role="alert" className="text-sm text-red-700">
-          Não foi possível carregar as ocorrências: {error}
-        </p>
-
-        <button
-          type="button"
-          onClick={onRetry}
-          className="mt-3 text-sm font-medium underline"
-        >
-          Tentar novamente
-        </button>
-      </section>
-    );
-  }
-
-  if (occurrences.length === 0) {
-    return (
-      <section className="rounded-lg border border-dashed border-gray-300 p-6">
-        <h2 className="font-semibold">Nenhuma ocorrência encontrada</h2>
-
-        <p className="mt-1 text-sm text-gray-600">
-          Não há registros para os filtros selecionados.
-        </p>
-      </section>
-    );
-  }
-
-  return (
-    <section aria-label="Ocorrências encontradas">
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 className="text-xl font-semibold">Ocorrências</h2>
-
-        <p className="text-sm text-gray-600">
-          {occurrences.length} registro(s)
-        </p>
-      </div>
-
-      <ul className="grid gap-4 md:grid-cols-2">
-        {occurrences.map((occurrence) => (
-          <li
-            key={occurrence.id}
-            className="rounded-lg border border-gray-200 bg-white p-5"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <h3 className="font-semibold">{occurrence.tipo}</h3>
-
-              <span
-                className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                  priorityStyles[occurrence.prioridade] ??
-                  "bg-gray-100 text-gray-800"
-                }`}
-              >
-                Prioridade:{" "}
-                {priorityLabels[occurrence.prioridade] ?? occurrence.prioridade}
-              </span>
-            </div>
-
-            <p className="mt-3 whitespace-pre-wrap text-sm text-gray-600">
-              {occurrence.descricao}
-            </p>
-
-            <dl className="mt-4 space-y-3 text-sm">
-              <div>
-                <dt className="text-gray-500">Situação</dt>
-                <dd className="font-medium">
-                  {situationLabels[occurrence.situacao] ?? occurrence.situacao}
-                </dd>
-              </div>
-
-              <div>
-                <dt className="text-gray-500">ID do cruzamento</dt>
-                <dd className="break-all font-medium">
-                  {occurrence.cruzamento_id}
-                </dd>
-              </div>
-            </dl>
-            <div className="mt-5 flex flex-wrap gap-4">
-              <button
-                type="button"
-                onClick={() => onEdit(occurrence)}
-                disabled={actionsDisabled}
-                className="text-sm font-medium text-blue-700 underline disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Editar
-              </button>
-
-              <button
-                type="button"
-                onClick={() => onDelete(occurrence)}
-                disabled={actionsDisabled}
-                className="text-sm font-medium text-red-700 underline disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Excluir
-              </button>
-
-              {occurrence.situacao === "aberta" && (
-                <button
-                  type="button"
-                  onClick={() => onSituationChange(occurrence, "em_andamento")}
-                  disabled={actionsDisabled}
-                  className="text-sm font-medium text-amber-800 underline disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Iniciar atendimento
-                </button>
-              )}
-
-              {occurrence.situacao === "em_andamento" && (
-                <button
-                  type="button"
-                  onClick={() => onSituationChange(occurrence, "resolvida")}
-                  disabled={actionsDisabled}
-                  className="text-sm font-medium text-green-700 underline disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Marcar como resolvida
-                </button>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+  if (loading) return <p role="status" className="p-6 text-sm text-hawk-muted">Carregando ocorrências...</p>;
+  if (error) return <div className="p-6"><p role="alert" className="text-sm text-hawk-orange">{error}</p><button type="button" onClick={onRetry} className="mt-3 text-sm text-hawk-green underline">Tentar novamente</button></div>;
+  if (!occurrences.length) return <p className="p-8 text-sm text-hawk-muted">Nenhuma ocorrência encontrada para estes filtros.</p>;
+  return <ul className="divide-y divide-hawk-border">{occurrences.map(o => <li key={o.id} className={selectedId === o.id ? "border-l-2 border-hawk-green bg-hawk-green/5 p-5" : "border-l-2 border-transparent p-5 hover:bg-hawk-card"}>
+ <button type="button" onClick={() => onSelect(o.id)} aria-pressed={selectedId === o.id} className="flex w-full flex-wrap items-start justify-between gap-3 text-left"><div className="min-w-0"><p className="text-xs text-hawk-muted">{formatEventDate(o.criado_em)}</p><h3 className="mt-2 font-semibold">{o.tipo}</h3><p className="mt-1 break-all text-xs text-hawk-muted">{crossingNames[o.cruzamento_id] ?? o.cruzamento_id}</p></div><div className="flex flex-wrap gap-2"><StatusBadge value={o.prioridade} /><StatusBadge value={o.situacao} /></div></button>
+ <div className="mt-4 flex flex-wrap gap-4 text-xs"><button type="button" disabled={actionsDisabled} onClick={() => onEdit(o)} className="text-hawk-green hover:underline">Editar</button><button type="button" disabled={actionsDisabled} onClick={() => onDelete(o)} className="text-hawk-orange hover:underline">Excluir</button>{o.situacao === 'aberta' && <button type="button" disabled={actionsDisabled} onClick={() => onSituationChange(o, 'em_andamento')} className="text-hawk-muted hover:text-hawk-text">Iniciar atendimento</button>}{o.situacao === 'em_andamento' && <button type="button" disabled={actionsDisabled} onClick={() => onSituationChange(o, 'resolvida')} className="text-hawk-green hover:underline">Marcar como resolvida</button>}</div>
+ </li>)}</ul>;
 }

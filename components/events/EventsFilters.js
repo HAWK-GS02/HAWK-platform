@@ -11,12 +11,12 @@ export function EventsFilters({
   crossingsLoading,
   crossingsError,
 }) {
-  const selectClass = "rounded-md border border-gray-300 p-2";
+  const selectClass = "hawk-input";
 
   return (
     <section
       aria-label="Filtros do histórico"
-      className="rounded-lg border border-gray-200 bg-white p-5"
+      className="border-b border-hawk-border bg-hawk-surface p-5"
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <label className="grid gap-1">
@@ -102,7 +102,7 @@ export function EventsFilters({
       </div>
 
       {crossingsError && (
-        <p role="alert" className="mt-3 text-sm text-red-700">
+        <p role="alert" className="mt-3 text-sm text-hawk-orange">
           Não foi possível carregar o filtro de cruzamentos:{" "}
           {crossingsError}
         </p>

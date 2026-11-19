@@ -30,15 +30,15 @@ export function CrossingsReportTable({ report, loading }) {
       </h2>
 
       {report.error ? (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-hawk-orange">
           Não foi possível carregar os cruzamentos: {report.error}
         </p>
       ) : report.data === null ? (
-        <p role="status" className="text-sm text-gray-600">
+        <p role="status" className="text-sm text-hawk-muted">
           {loading ? "Carregando relatório..." : "Sem dados disponíveis."}
         </p>
       ) : report.data.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 p-6 text-sm text-gray-600">
+        <p className="rounded-sm border border-dashed border-hawk-border p-6 text-sm text-hawk-muted">
           Nenhum cruzamento cadastrado para apresentar no relatório.
         </p>
       ) : (
@@ -46,14 +46,14 @@ export function CrossingsReportTable({ report, loading }) {
           role="region"
           aria-label="Tabela de indicadores por cruzamento"
           tabIndex={0}
-          className="overflow-x-auto rounded-lg border border-gray-200"
+          className="overflow-x-auto rounded-sm border border-hawk-border"
         >
           <table className="w-full text-sm">
             <caption className="sr-only">
               Totais e médias operacionais dos cruzamentos cadastrados
             </caption>
 
-            <thead className="bg-gray-50 text-gray-600">
+            <thead className="bg-hawk-sidebar text-hawk-muted">
               <tr>
                 <th scope="col" className="p-4 text-left">
                   Cruzamento
@@ -71,7 +71,7 @@ export function CrossingsReportTable({ report, loading }) {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody className="divide-y divide-hawk-border bg-hawk-surface">
               {report.data.map((crossing) => (
                 <tr key={crossing.cruzamento_id}>
                   <th

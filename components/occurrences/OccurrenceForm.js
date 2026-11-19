@@ -29,7 +29,7 @@ export function OccurrenceForm({
     (crossingsLoading || Boolean(crossingsError) || crossings.length === 0);
 
   return (
-    <section className="rounded-lg border border-gray-200 bg-white p-6">
+    <section className="border border-hawk-border bg-hawk-surface p-5">
       <h2 className="text-xl font-semibold">
         {isEditing ? "Editar ocorrência" : "Cadastrar ocorrência"}
       </h2>
@@ -42,10 +42,10 @@ export function OccurrenceForm({
           {isEditing ? (
             <div>
               <p className="text-sm font-medium">Cruzamento</p>
-              <p className="mt-1 break-all text-sm text-gray-600">
+              <p className="mt-1 break-all text-sm text-hawk-muted">
                 {crossingName || formData.cruzamento_id}
               </p>
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-hawk-muted">
                 O cruzamento associado não pode ser alterado.
               </p>
             </div>
@@ -59,7 +59,7 @@ export function OccurrenceForm({
                 onChange={handleChange}
                 disabled={cannotCreate}
                 required
-                className="rounded-md border border-gray-300 p-2"
+                className="hawk-input"
               >
                 <option value="">
                   {crossingsLoading
@@ -77,7 +77,7 @@ export function OccurrenceForm({
           )}
 
           {!isEditing && crossingsError && (
-            <p role="alert" className="text-sm text-red-700">
+            <p role="alert" className="text-sm text-hawk-orange">
               Não foi possível carregar os cruzamentos: {crossingsError}
             </p>
           )}
@@ -86,7 +86,7 @@ export function OccurrenceForm({
             !crossingsLoading &&
             !crossingsError &&
             crossings.length === 0 && (
-              <p className="text-sm text-amber-800">
+              <p className="text-sm text-hawk-orange">
                 Cadastre um cruzamento antes de registrar uma ocorrência.
               </p>
             )}
@@ -99,7 +99,7 @@ export function OccurrenceForm({
               onChange={handleChange}
               placeholder="Ex.: falha no sinal sonoro"
               required
-              className="rounded-md border border-gray-300 p-2"
+              className="hawk-input"
             />
           </label>
 
@@ -109,7 +109,7 @@ export function OccurrenceForm({
               name="prioridade"
               value={formData.prioridade}
               onChange={handleChange}
-              className="rounded-md border border-gray-300 p-2"
+              className="hawk-input"
             >
               <option value="baixa">Baixa</option>
               <option value="media">Média</option>
@@ -125,7 +125,7 @@ export function OccurrenceForm({
               onChange={handleChange}
               rows={4}
               required
-              className="rounded-md border border-gray-300 p-2"
+              className="hawk-input"
             />
           </label>
 
@@ -135,7 +135,7 @@ export function OccurrenceForm({
               name="situacao"
               value={formData.situacao}
               onChange={handleChange}
-              className="rounded-md border border-gray-300 p-2"
+              className="hawk-input"
             >
               <option value="aberta">Aberta</option>
               <option value="em_andamento">Em andamento</option>
@@ -146,7 +146,7 @@ export function OccurrenceForm({
           <button
             type="submit"
             disabled={cannotCreate}
-            className="rounded-md bg-slate-900 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="hawk-button"
           >
             {submitting
               ? "Salvando..."
@@ -159,7 +159,7 @@ export function OccurrenceForm({
             <button
               type="button"
               onClick={onCancel}
-              className="rounded-md border border-gray-300 px-4 py-2"
+              className="rounded-sm border border-hawk-border px-4 py-2"
             >
               Cancelar edição
             </button>
@@ -167,13 +167,13 @@ export function OccurrenceForm({
         </fieldset>
 
         {error && (
-          <p role="alert" className="text-sm text-red-700">
+          <p role="alert" className="text-sm text-hawk-orange">
             {error}
           </p>
         )}
 
         {successMessage && (
-          <p role="status" className="text-sm text-green-700">
+          <p role="status" className="text-sm text-hawk-green">
             {successMessage}
           </p>
         )}

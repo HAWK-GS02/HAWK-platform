@@ -1,7 +1,10 @@
 "use client";
+import { AppShell } from "../../../components/layout/AppShell";
+import { PageHeader } from "../../../components/layout/PageHeader";
 
-import Link from "next/link";
+
 import { Suspense } from "react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEvent } from "../../../hooks/useEvent";
 import { EventDetails } from "../../../components/events/EventDetails";
@@ -17,33 +20,15 @@ function EventDetailsContent() {
   } = useEvent(id);
 
   return (
-    <main className="mx-auto max-w-4xl space-y-8 p-6 md:p-8">
-      <header>
-        <Link
-          href="/historico"
-          className="text-sm font-medium text-blue-700 underline"
-        >
-          Voltar ao histórico
-        </Link>
-
-        <p className="mt-5 text-sm font-medium text-slate-600">
-          HAWK Control
-        </p>
-
-        <h1 className="mt-1 text-3xl font-bold text-slate-900">
-          Detalhe do evento
-        </h1>
-
-        <p className="mt-2 text-gray-600">
-          Consulte os dados registrados neste evento operacional.
-        </p>
-      </header>
+    <AppShell activeHref="/historico">
+      <Link href="/historico" className="text-xs text-hawk-green hover:underline">← Voltar ao histórico</Link>
+      <PageHeader eyebrow="MEMÓRIA OPERACIONAL / EVENTO" title="Detalhe do evento." description="Informações e contexto do evento registrado." />
 
       {loading ? (
         <p role="status">Carregando evento...</p>
       ) : error ? (
-        <section className="rounded-lg border border-red-200 p-5">
-          <p role="alert" className="text-sm text-red-700">
+        <section className="rounded-sm border border-hawk-orange/40 p-5">
+          <p role="alert" className="text-sm text-hawk-orange">
             Não foi possível carregar o evento: {error}
           </p>
 
@@ -60,7 +45,7 @@ function EventDetailsContent() {
       ) : (
         <p role="status">Nenhum dado de evento disponível.</p>
       )}
-    </main>
+    </AppShell>
   );
 }
 

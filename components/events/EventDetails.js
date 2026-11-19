@@ -7,7 +7,7 @@ import {
 function DetailField({ label, children }) {
   return (
     <div>
-      <dt className="text-sm text-gray-500">{label}</dt>
+      <dt className="text-sm text-hawk-muted">{label}</dt>
       <dd className="mt-1 break-words font-medium">
         {children}
       </dd>
@@ -42,7 +42,7 @@ export function EventDetails({ event }) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-gray-200 bg-white p-6">
+      <section className="border border-hawk-border bg-hawk-surface p-5">
         <h2 className="text-xl font-semibold">
           Informações do evento
         </h2>
@@ -90,7 +90,7 @@ export function EventDetails({ event }) {
         </dl>
       </section>
 
-      <section className="rounded-lg border border-gray-200 bg-white p-6">
+      <section className="border border-hawk-border bg-hawk-surface p-5">
         <h2 className="text-xl font-semibold">
           Ocorrência associada
         </h2>
@@ -114,7 +114,7 @@ export function EventDetails({ event }) {
             </DetailField>
           </dl>
         ) : (
-          <p className="mt-3 text-sm text-gray-600">
+          <p className="mt-3 text-sm text-hawk-muted">
             A API não retornou uma ocorrência associada a este evento.
           </p>
         )}

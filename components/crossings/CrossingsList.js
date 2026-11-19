@@ -1,118 +1,21 @@
-"use client";
-
 import Link from "next/link";
-
-const statusLabels = {
-  ativo: "Ativo",
-  manutencao: "Em manutenção",
-  inativo: "Inativo",
-};
-
-const statusStyles = {
-  ativo: "bg-green-100 text-green-800",
-  manutencao: "bg-amber-100 text-amber-800",
-  inativo: "bg-gray-200 text-gray-800",
-};
-
-export function CrossingsList({ crossings, loading, error, onEdit, onDelete }) {
-  if (loading) {
-    return (
-      <section aria-live="polite">
-        <p>Carregando cruzamentos...</p>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section aria-live="assertive">
-        <p className="text-red-700">
-          Não foi possível carregar os cruzamentos: {error}
-        </p>
-      </section>
-    );
-  }
-
-  if (crossings.length === 0) {
-    return (
-      <section className="rounded-lg border border-dashed border-gray-300 p-6">
-        <h2 className="font-semibold">Nenhum cruzamento cadastrado</h2>
-        <p className="mt-1 text-sm text-gray-600">
-          Cadastre o primeiro cruzamento para iniciar o monitoramento.
-        </p>
-      </section>
-    );
-  }
-
-  return (
-    <section>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Cruzamentos cadastrados</h2>
-
-        <p className="text-sm text-gray-600">
-          {crossings.length} registrado(s)
-        </p>
-      </div>
-
-      <ul className="grid gap-4 md:grid-cols-2">
-        {crossings.map((crossing) => (
-          <li
-            key={crossing.id}
-            className="rounded-lg border border-gray-200 bg-white p-5"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h3 className="font-semibold">{crossing.nome}</h3>
-                <p className="mt-1 text-sm text-gray-600">{crossing.bairro}</p>
-              </div>
-
-              <span
-                className={`rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[crossing.status]}`}
-              >
-                {statusLabels[crossing.status] || crossing.status}
-              </span>
-            </div>
-
-            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <div>
-                <dt className="text-gray-500">Largura da via</dt>
-                <dd className="font-medium">{crossing.largura_via_m} m</dd>
-              </div>
-
-              <div>
-                <dt className="text-gray-500">Coordenadas</dt>
-                <dd className="font-medium">
-                  {crossing.latitude}, {crossing.longitude}
-                </dd>
-              </div>
-            </dl>
-
-            <div className="mt-5 flex items-center gap-4">
-              <Link
-                href={`/cruzamentos/${crossing.id}`}
-                className="inline-flex text-sm font-medium text-slate-900 underline underline-offset-4"
-              >
-                Ver detalhes
-              </Link>
-
-              <button
-                type="button"
-                onClick={() => onEdit(crossing)}
-                className="text-sm font-medium text-blue-700 underline underline-offset-4"
-              >
-                Editar
-              </button>
-              <button
-  type="button"
-  onClick={() => onDelete(crossing)}
-  className="text-sm font-medium text-red-700 underline underline-offset-4"
->
-  Excluir
-</button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+import { StatusBadge } from "../ui/StatusBadge";
+export function CrossingsList({
+  crossings,
+  loading,
+  error,
+  onEdit,
+  onDelete
+}) {
+  if (loading) return <p role="status" className="p-6 text-sm text-hawk-muted">Carregando cruzamentos...</p>;
+  if (error) return <p role="alert" className="p-6 text-sm text-hawk-orange">Não foi possível carregar os cruzamentos: {error}</p>;
+  if (!crossings.length) return <p className="p-8 text-sm text-hawk-muted">Nenhum cruzamento encontrado. Cadastre um registro ou ajuste a busca.</p>;
+  return <div className="overflow-x-auto"><table className="w-full text-left text-sm">
+    <caption className="sr-only">Diretório de cruzamentos cadastrados</caption>
+    <thead className="bg-hawk-sidebar text-xs uppercase tracking-wider text-hawk-muted"><tr><th scope="col" className="p-4">Cruzamento</th><th scope="col" className="p-4">Status cadastral</th><th scope="col" className="p-4">Via</th><th scope="col" className="p-4">Acesso</th></tr></thead>
+    <tbody className="divide-y divide-hawk-border">{crossings.map((crossing, index) => <tr key={crossing.id} className="hover:bg-hawk-card">
+      <th scope="row" className="min-w-48 p-4 font-normal"><div className="flex gap-3"><span className="text-xs text-hawk-green">{String(index + 1).padStart(2, '0')}</span><div><Link href={'/cruzamentos/' + crossing.id} className="font-semibold hover:text-hawk-green">{crossing.nome}</Link><p className="mt-1 text-xs text-hawk-muted">{crossing.bairro}</p></div></div></th>
+      <td className="p-4"><StatusBadge value={crossing.status} /></td><td className="whitespace-nowrap p-4 text-hawk-muted">{crossing.largura_via_m} m</td>
+      <td className="p-4"><div className="flex flex-wrap gap-3"><Link href={'/cruzamentos/' + crossing.id} className="text-hawk-green hover:underline">Detalhes ↗</Link><button type="button" onClick={() => onEdit(crossing)} className="text-hawk-muted hover:text-hawk-text">Editar</button><button type="button" onClick={() => onDelete(crossing)} className="text-hawk-orange hover:underline">Excluir</button></div></td>
+    </tr>)}</tbody></table><p className="border-t border-hawk-border p-4 text-xs text-hawk-muted">{crossings.length} registro(s) exibido(s)</p></div>;
 }

@@ -12,7 +12,7 @@ export function DashboardMetrics({
       <h2 className="text-xl font-semibold">{title}</h2>
 
       {report.error ? (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-hawk-orange">
           Não foi possível carregar esta seção: {report.error}
         </p>
       ) : report.data ? (
@@ -31,7 +31,7 @@ export function DashboardMetrics({
           ))}
         </div>
       ) : (
-        <p role="status" className="text-sm text-gray-600">
+        <p role="status" className="text-sm text-hawk-muted">
           {loading ? "Carregando indicadores..." : "Sem dados disponíveis."}
         </p>
       )}

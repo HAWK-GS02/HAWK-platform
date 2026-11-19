@@ -1,22 +1,22 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const navigation = [
   { number: "01", label: "Visão geral", href: "/" },
   { number: "02", label: "Cruzamentos", href: "/cruzamentos" },
   { number: "03", label: "Ocorrências", href: "/ocorrencias" },
   { number: "04", label: "Histórico", href: "/historico" },
+  { number: "05", label: "Relatórios", href: "/dashboard" },
 ];
 
 export function Sidebar({ activeHref }) {
   return (
-    <aside className="flex w-full flex-col border-b border-hawk-border bg-hawk-sidebar p-5 lg:min-h-screen lg:w-56 lg:shrink-0 lg:border-r lg:border-b-0">
+    <aside className="flex w-full flex-col border-b border-hawk-border bg-hawk-sidebar p-5 lg:sticky lg:top-0 lg:h-screen lg:w-56 lg:shrink-0 lg:border-r lg:border-b-0">
       <Link
         href="/"
         aria-label="HAWK Control — página inicial"
         className="text-3xl font-bold tracking-widest text-hawk-green"
-      >
-        HAWK
-      </Link>
+      ><Image src="/hawk-logo.svg" width={94} height={23} alt="HAWK" priority /></Link>
 
       <p className="mt-2 text-xs leading-relaxed text-hawk-muted">
         CONTROL / PAINEL OPERACIONAL
@@ -58,7 +58,7 @@ export function Sidebar({ activeHref }) {
         <p className="font-bold text-hawk-text">HAWK CONTROL</p>
 
         <p className="mt-3 leading-relaxed text-hawk-muted">
-          GLobal Solution 2.0 | @FIAP
+          Global Solution 2.0 | @FIAP
         </p>
 
         <p className="mt-4 flex items-center gap-2 text-hawk-muted">

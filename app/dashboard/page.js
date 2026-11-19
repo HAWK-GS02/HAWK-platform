@@ -1,4 +1,6 @@
 "use client";
+import { AppShell } from "../../components/layout/AppShell";
+import { PageHeader } from "../../components/layout/PageHeader";
 
 import { useDashboard } from "../../hooks/useDashboard";
 import { DashboardMetrics } from "../../components/dashboard/DashboardMetrics";
@@ -54,32 +56,15 @@ export default function DashboardPage() {
   } = useDashboard();
 
   return (
-    <main className="mx-auto max-w-7xl space-y-8 p-6 md:p-8">
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium text-slate-600">
-            HAWK Control
-          </p>
-
-          <h1 className="mt-1 text-3xl font-bold text-slate-900">
-            Dashboard
-          </h1>
-
-          <p className="mt-2 max-w-2xl text-gray-600">
-            Visão consolidada dos dados operacionais registrados
-            no sistema HAWK.
-          </p>
-        </div>
-
-        <button
+    <AppShell activeHref="/dashboard">
+      <PageHeader eyebrow="INTELIGÊNCIA OPERACIONAL / 06" title="Relatórios." description="Uma visão consolidada dos indicadores registrados no HAWK." action={<button
           type="button"
           onClick={reloadDashboard}
           disabled={loading}
-          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50"
+          className="hawk-button-secondary"
         >
           {loading ? "Atualizando..." : "Atualizar relatórios"}
-        </button>
-      </header>
+        </button>} />
 
       <DashboardMetrics
         title="Resumo operacional"
@@ -99,6 +84,6 @@ export default function DashboardPage() {
         report={crossings}
         loading={loading}
       />
-    </main>
+    </AppShell>
   );
 }
