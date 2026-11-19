@@ -9,7 +9,7 @@ export function AppShell({ activeHref, children }) {
         <div className="mx-auto max-w-7xl space-y-6">{children}</div>
         <footer className="mx-auto mt-8 flex max-w-7xl flex-wrap justify-between gap-3 border-t border-hawk-border pt-4 text-xs text-hawk-muted">
           <span className="tracking-wider">HAWK CONTROL / PAINEL OPERACIONAL</span>
-          <span>Protótipo acadêmico · Sem controle remoto semafórico</span>
+          <span>HAWK · Global Solution 2.0 | @FIAP</span>
         </footer>
       </main>
     </div>
