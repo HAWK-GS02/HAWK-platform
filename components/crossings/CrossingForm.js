@@ -1,6 +1,6 @@
 "use client"
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const initialForm = {
     nome: "",
@@ -11,11 +11,21 @@ const initialForm = {
     status: "ativo",
 };
 
-export function CrossingForm({onCreate}) {
+export function CrossingForm({onSubmit, initialData, onCancel}) {
     const [formData, setFormData] = useState(initialForm);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const isEditing = Boolean(initialData);
+
+    useEffect(() => {
+      setFormData({
+        ...initialForm,
+        ...initialData,
+      });
+    }, [initialData]);
+
+
 
     function handleChange(event){
         const {name, value} = event.target;
@@ -34,15 +44,22 @@ export function CrossingForm({onCreate}) {
             setError("");
             setSuccessMessage("");
 
-            await onCreate({
+            await onSubmit({
                 ...formData,
                 latitude: Number(formData.latitude),
                 longitude: Number(formData.longitude),
                 largura_via_m: Number(formData.largura_via_m),
             });
 
-            setFormData(initialForm);
-            setSuccessMessage("Cruzamento cadastrado com sucesso.");
+            if (!isEditing) {
+  setFormData(initialForm);
+}
+
+setSuccessMessage(
+  isEditing
+    ? "Cruzamento atualizado com sucesso."
+    : "Cruzamento cadastrado com sucesso."
+);
         }catch (err){
             setError(err.message);
         }finally {
@@ -53,7 +70,7 @@ export function CrossingForm({onCreate}) {
     return(
         <section className="rounded-lg border border-gray-200 bg-white p-6">
       <h2 className="text-xl font-semibold">
-        Cadastrar cruzamento
+        {isEditing ? "Editar cruzamento" : "Cadastrar cruzamento"}
       </h2>
 
       <p className="mt-1 text-sm text-gray-600">
@@ -164,8 +181,21 @@ export function CrossingForm({onCreate}) {
           disabled={submitting}
           className="rounded-md bg-slate-900 px-4 py-2 font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {submitting ? "Cadastrando..." : "Cadastrar cruzamento"}
+          {submitting
+  ? "Salvando..."
+  : isEditing
+    ? "Salvar alterações"
+    : "Cadastrar cruzamento"}
         </button>
+        {isEditing && (
+  <button
+    type="button"
+    onClick={onCancel}
+    className="rounded-md border border-gray-300 px-4 py-2 font-medium text-slate-700"
+  >
+    Cancelar edição
+  </button>
+)}
       </form>
     </section>
     );

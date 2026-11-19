@@ -1,9 +1,11 @@
+"use client";
+
 import Link from "next/link";
 
 const statusLabels = {
-    ativo: "Ativo",
-    manutencao: "Em manutenção",
-    inativo: "Inativo",
+  ativo: "Ativo",
+  manutencao: "Em manutenção",
+  inativo: "Inativo",
 };
 
 const statusStyles = {
@@ -12,7 +14,7 @@ const statusStyles = {
   inativo: "bg-gray-200 text-gray-800",
 };
 
-export function CrossingsList({ crossings, loading, error }) {
+export function CrossingsList({ crossings, loading, error, onEdit, onDelete }) {
   if (loading) {
     return (
       <section aria-live="polite">
@@ -45,9 +47,7 @@ export function CrossingsList({ crossings, loading, error }) {
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-semibold">
-          Cruzamentos cadastrados
-        </h2>
+        <h2 className="text-xl font-semibold">Cruzamentos cadastrados</h2>
 
         <p className="text-sm text-gray-600">
           {crossings.length} registrado(s)
@@ -63,9 +63,7 @@ export function CrossingsList({ crossings, loading, error }) {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h3 className="font-semibold">{crossing.nome}</h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  {crossing.bairro}
-                </p>
+                <p className="mt-1 text-sm text-gray-600">{crossing.bairro}</p>
               </div>
 
               <span
@@ -78,9 +76,7 @@ export function CrossingsList({ crossings, loading, error }) {
             <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
               <div>
                 <dt className="text-gray-500">Largura da via</dt>
-                <dd className="font-medium">
-                  {crossing.largura_via_m} m
-                </dd>
+                <dd className="font-medium">{crossing.largura_via_m} m</dd>
               </div>
 
               <div>
@@ -91,12 +87,29 @@ export function CrossingsList({ crossings, loading, error }) {
               </div>
             </dl>
 
-            <Link
-              href={`/cruzamentos/${crossing.id}`}
-              className="mt-5 inline-flex text-sm font-medium text-slate-900 underline underline-offset-4"
-            >
-              Ver detalhes
-            </Link>
+            <div className="mt-5 flex items-center gap-4">
+              <Link
+                href={`/cruzamentos/${crossing.id}`}
+                className="inline-flex text-sm font-medium text-slate-900 underline underline-offset-4"
+              >
+                Ver detalhes
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => onEdit(crossing)}
+                className="text-sm font-medium text-blue-700 underline underline-offset-4"
+              >
+                Editar
+              </button>
+              <button
+  type="button"
+  onClick={() => onDelete(crossing)}
+  className="text-sm font-medium text-red-700 underline underline-offset-4"
+>
+  Excluir
+</button>
+            </div>
           </li>
         ))}
       </ul>
