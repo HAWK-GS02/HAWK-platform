@@ -22,6 +22,9 @@ export function OccurrencesList({
   error,
   onRetry,
   onEdit,
+  onDelete,
+  onSituationChange,
+  actionsDisabled,
 }) {
   if (loading) {
     return <p role="status">Carregando ocorrências...</p>;
@@ -106,13 +109,47 @@ export function OccurrencesList({
                 </dd>
               </div>
             </dl>
-            <button
-              type="button"
-              onClick={() => onEdit(occurrence)}
-              className="mt-5 text-sm font-medium text-blue-700 underline"
-            >
-              Editar
-            </button>
+            <div className="mt-5 flex flex-wrap gap-4">
+              <button
+                type="button"
+                onClick={() => onEdit(occurrence)}
+                disabled={actionsDisabled}
+                className="text-sm font-medium text-blue-700 underline disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Editar
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onDelete(occurrence)}
+                disabled={actionsDisabled}
+                className="text-sm font-medium text-red-700 underline disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Excluir
+              </button>
+
+              {occurrence.situacao === "aberta" && (
+                <button
+                  type="button"
+                  onClick={() => onSituationChange(occurrence, "em_andamento")}
+                  disabled={actionsDisabled}
+                  className="text-sm font-medium text-amber-800 underline disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Iniciar atendimento
+                </button>
+              )}
+
+              {occurrence.situacao === "em_andamento" && (
+                <button
+                  type="button"
+                  onClick={() => onSituationChange(occurrence, "resolvida")}
+                  disabled={actionsDisabled}
+                  className="text-sm font-medium text-green-700 underline disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Marcar como resolvida
+                </button>
+              )}
+            </div>
           </li>
         ))}
       </ul>
