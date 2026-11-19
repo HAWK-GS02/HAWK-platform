@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { EventsPeriodFilter } from "../../components/events/EventsPeriodFilter";
 import { useEvents } from "../../hooks/useEvents";
 import { useCrossings } from "../../hooks/useCrossings";
 import { EventsFilters } from "../../components/events/EventsFilters";
@@ -14,6 +16,7 @@ export default function HistoryPage() {
     changeFilter,
     resetFilters,
     reloadEvents,
+    applyPeriod,
   } = useEvents();
 
   const {
@@ -25,6 +28,13 @@ export default function HistoryPage() {
   const crossingNames = Object.fromEntries(
     crossings.map((crossing) => [crossing.id, crossing.nome])
   );
+
+  const [periodKey, setPeriodKey] = useState(0);
+
+function handleResetFilters() {
+  resetFilters();
+  setPeriodKey((current) => current + 1);
+}
 
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
@@ -56,11 +66,16 @@ export default function HistoryPage() {
       <EventsFilters
         filters={filters}
         onFilterChange={changeFilter}
-        onReset={resetFilters}
+        onReset={handleResetFilters}
         crossings={crossings}
         crossingsLoading={crossingsLoading}
         crossingsError={crossingsError}
       />
+
+      <EventsPeriodFilter
+  key={periodKey}
+  onApply={applyPeriod}
+/>
 
       <EventsList
         events={events}

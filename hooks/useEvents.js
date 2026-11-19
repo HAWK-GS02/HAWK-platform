@@ -67,13 +67,22 @@ export function useEvents() {
     setRefreshKey((current) => current + 1);
   }
 
+  function applyPeriod({ de, ate }) {
+  setFilters((current) => ({
+    ...current,
+    de,
+    ate,
+  }));
+}
+
   return {
-    events,
-    filters,
-    loading,
-    error,
-    changeFilter,
-    resetFilters,
-    reloadEvents,
-  };
+  events,
+  filters,
+  loading,
+  error,
+  changeFilter,
+  resetFilters,
+  reloadEvents,
+  applyPeriod,
+};
 }
