@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "HAWK | GS 2.0",
+  title: "HAWK | A cidade que se adapta a você",
   description: "O HAWK é uma proposta de tecnologia urbana voltada à construção de cidades mais acessíveis, inclusivas e adaptáveis às necessidades de seus cidadãos.",
 };
 
