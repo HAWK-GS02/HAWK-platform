@@ -1,4 +1,14 @@
-# HAWK Control
+<h1 align="center">HAWK Control</h1>
+
+<p align="center">
+  <img
+    width="64"
+    height="64"
+    alt="W da HAWK"
+    src="https://github.com/user-attachments/assets/063d6078-ff89-41e1-9b15-cb69c19e2688"
+  />
+</p>
+
 
 **A cidade que se adapta a você.**
 
